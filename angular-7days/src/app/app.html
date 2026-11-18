@@ -1,0 +1,37 @@
+<h1>Olá, {{username}}!</h1>
+
+<p>Bem-vindo ao seu primeiro projeto Angular.</p>
+
+<button [disabled]="buttonDisabled">
+  Botão de teste
+</button>
+
+<button (click)="sayHello()">
+  Dizer olá
+</button>
+
+<h1>Contador: {{counter}}</h1>
+
+<button (click)="increment()">
+  Incrementar
+</button>
+
+<button (click)="decrement()">
+  Decrementar
+</button>
+
+<h1>Digite uma mensagem:</h1>
+
+<input
+  type="text"
+  (input)="updateMessage($event)"
+  placeholder="Digite aqui"
+  />
+
+  <p>Mensagem: {{message}}</p>
+
+  <h1>Likes: {{likes}} Dislikes: {{dislikes}}</h1>
+  <button (click)="like()">Like</button>
+  <button (click)="dislike()">Dislike</button>
+  <button (click)="reset()" [disabled]="likes === 0 && dislikes === 0">Reset likes e dislikes</button>
+  <p>{{mensagemLike()}}</p>
