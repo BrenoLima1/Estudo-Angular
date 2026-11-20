@@ -1,0 +1,17 @@
+<ul>
+  @for (produto of produtos; track produto.id) {
+    <li>
+      {{ produto.nome }}
+      <button (click)="produtoSelecionado.emit(produto.nome)">
+        Selecionar
+      </button>
+
+      @if (mostrarPrecos()) {
+        <p>Preço: {{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+      }
+    </li>
+
+  } @empty {
+    <li>Nenhum produto cadastrado.</li>
+  }
+</ul>

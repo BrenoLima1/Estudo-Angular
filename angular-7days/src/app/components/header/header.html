@@ -1,0 +1,11 @@
+<header>
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+  <p>Bem-vindo, {{ username() }}!</p>
+  <button (click)="saudacaoClicada.emit()">
+    Alterar saudação
+  </button>
+  <button (click)="saudacao2.emit('Olá, ' + username() + ' - MENSAGEM 2!')">
+    Enviar saudação 2
+  </button>
+</header>

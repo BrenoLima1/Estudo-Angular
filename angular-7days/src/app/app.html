@@ -1,6 +1,82 @@
+<app-header
+[username]="username"
+(saudacaoClicada)="alterarSaudacao()"
+(saudacao2)="mensagem2 = $event">
+</app-header>
+
+<p>{{mensagem}}</p>
+<p>{{mensagem2}}</p>
+
+<button (click) = "alterarMensagem()">
+  Mostrar / Esconder mensagem
+</button>
+
+@if (mostrarMensagem) {
+  <p>{{ mensagemMostarada }}</p>
+} @else {
+  <p>Clique no botão para mostrar a mensagem!</p>
+}
+
+<h2>Lista de usuários</h2>
+
+<ul>
+  @for (usuario of usuarios; track usuario) {
+    <li>{{ usuario.nome }} - {{ usuario.idade }} anos</li>
+  } @empty {
+    <li>Nenhum usuário cadastrado.</li>
+  }
+</ul>
+
+<hr>
+
+<h2>Estudando Pipes</h2>
+
+<p>Original: {{ nomeCompleto }}</p>
+
+<p>Maiúsculo: {{ nomeCompleto | uppercase }}</p>
+
+<p>Minúsculo: {{ nomeCompleto | lowercase }}</p>
+
+<p>Primeiras letras maiúsculas: {{ nomeCompleto | titlecase }}</p>
+
+<hr>
+
+<hr>
+
+<h2>Formatação de preços</h2>
+
+<p>Preço original: {{ preco }}</p>
+
+<p>Preço formatado: {{ preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+
+<hr>
+
+<h2>Formatação de datas</h2>
+
+<p>Data original: {{ dataAtual }}</p>
+
+<p>Data formatada: {{ dataAtual | date:'dd/MM/yyyy' }}</p>
+
+<p>Formato padrão: {{ dataAtual | date }}</p>
+
+<p>Data curta: {{ dataAtual | date:'shortDate' }}</p>
+
+<p>Data completa: {{ dataAtual | date:'fullDate' }}</p>
+
+<hr>
+
+<button (click)="adicionarUsuario()">
+  Adicionar Usuário
+</button>
+
+<button (click)="removerUsuarios()">
+  Remover Usuários
+</button>
+
 <h1>Olá, {{username}}!</h1>
 
 <p>Bem-vindo ao seu primeiro projeto Angular.</p>
+
 
 <button [disabled]="buttonDisabled">
   Botão de teste
@@ -35,3 +111,50 @@
   <button (click)="dislike()">Dislike</button>
   <button (click)="reset()" [disabled]="likes === 0 && dislikes === 0">Reset likes e dislikes</button>
   <p>{{mensagemLike()}}</p>
+
+  <hr>
+
+<h2>Editor de Perfil</h2>
+
+<label>Nome:</label>
+<input type="text" [(ngModel)]="username">
+
+<label>Profissão:</label>
+<input type="text" [(ngModel)]="profession">
+
+<label>Idade:</label>
+<input type="number" [(ngModel)]="age">
+
+<h3>Visualização do perfil</h3>
+
+<p>Nome: {{ username }}</p>
+<p>Profissão: {{ profession }}</p>
+<p>Idade: {{ age }}</p>
+
+<hr>
+
+<h2>Teste do ciclo de vida</h2>
+
+<button (click)="mostrarCarrossel = !mostrarCarrossel">
+  Mostrar / Esconder carrossel
+</button>
+
+@if (mostrarCarrossel) {
+  <app-carrossel />
+}
+
+<hr>
+
+<h2>Produtos</h2>
+
+<app-produtos [mostrarPrecos]="mostrarPrecos"
+(produtoSelecionado)="produtoEscolhido = $event"
+/>
+
+<button (click)="mostrarPrecos = !mostrarPrecos">
+  Mostrar / Esconder preços
+</button>
+
+@if (produtoEscolhido) {
+  <p>Produto selecionado: {{ produtoEscolhido }}</p>
+}
