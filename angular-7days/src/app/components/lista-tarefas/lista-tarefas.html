@@ -1,0 +1,47 @@
+<h2>Adicionar tarefa</h2>
+
+<input
+  type="text"
+  [(ngModel)]="tituloNovaTarefa"
+  placeholder="Digite o título da tarefa"
+/>
+
+<button (click)="adicionarTarefa()">
+  Adicionar tarefa
+</button>
+
+<p>Título digitado: {{ tituloNovaTarefa }}</p>
+
+@if (carregando()) {
+  <p>Carregando tarefas...</p>
+} @else if (erro()) {
+  <p>{{ erro() }}</p>
+} @else if (tarefas().length === 0) {
+  <p>Nenhuma tarefa cadastrada.</p>
+} @else {
+  @for (tarefa of tarefas(); track tarefa.id) {
+    <hr>
+
+    <p>{{ tarefa.title }}</p>
+
+    <button (click)="excluirTarefa(tarefa.id)">
+      Excluir
+    </button>
+
+    <button (click)="atualizarStatus(tarefa)">
+      @if (tarefa.completed) {
+        Marcar como pendente
+      } @else {
+        Marcar como concluída
+      }
+    </button>
+
+    @if (tarefa.completed) {
+      <span>(Concluída)</span>
+    } @else {
+      <span>(Pendente)</span>
+    }
+
+    <hr>
+  }
+}

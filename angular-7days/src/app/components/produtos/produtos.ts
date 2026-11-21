@@ -1,5 +1,7 @@
-import { Component, input, output, OnInit } from '@angular/core';
+import { Component, input, output, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { ProdutosService } from '../../services/produtos';
 
 @Component({
   selector: 'app-produtos',
@@ -8,17 +10,31 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './produtos.css',
 })
 export class Produtos implements OnInit {
+  private produtosService = inject(ProdutosService);
+
+  private router = inject(Router);
+
+  irParaDetalhes(id: number) {
+    this.router.navigate(['/produtos', id]);
+  }
+
   mostrarPrecos = input<boolean>(true);
+
+  quantidadeProdutos = this.produtosService.quantidadeProdutos;
 
   produtoSelecionado = output<string>();
 
-  produtos = [
-    { id: 1, nome: 'Mouse', preco: 100 },
-    { id: 2, nome: 'Teclado', preco: 200 },
-    { id: 3, nome: 'Monitor', preco: 300 },
-  ];
+  produtos = this.produtosService.produtos;
 
   ngOnInit() {
     console.log('Componente Produtos inicializado!');
+  }
+
+  adicionar() {
+    this.produtosService.adicionarProduto('Headset', 250);
+  }
+
+  remover(id: number) {
+    this.produtosService.removerProduto(id);
   }
 }

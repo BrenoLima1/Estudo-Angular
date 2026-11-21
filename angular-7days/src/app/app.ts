@@ -9,6 +9,8 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DatePipe } from '@angular/common';
 import { LOCALE_ID } from '@angular/core';
+import { ResumoProdutos } from './components/resumo-produtos/resumo-produtos';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -24,6 +26,9 @@ registerLocaleData(localePt, 'pt-BR');
     DatePipe,
     Carrossel,
     Produtos,
+    ResumoProdutos,
+    RouterOutlet,
+    RouterLink
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   templateUrl: './app.html',

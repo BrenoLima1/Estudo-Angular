@@ -1,4 +1,4 @@
-<app-header
+<!-- <app-header
 [username]="username"
 (saudacaoClicada)="alterarSaudacao()"
 (saudacao2)="mensagem2 = $event">
@@ -158,3 +158,19 @@
 @if (produtoEscolhido) {
   <p>Produto selecionado: {{ produtoEscolhido }}</p>
 }
+
+<app-resumo-produtos /> -->
+
+
+<h1>Meu sistema Angular</h1>
+
+<nav>
+  <a routerLink="/home">Home</a>
+  <a routerLink="/produtos">Produtos</a>
+  <a routerLink="/sobre">Sobre</a>
+  <a routerLink="/tarefas">Lista de Tarefas</a>
+</nav>
+
+<hr>
+
+<router-outlet />

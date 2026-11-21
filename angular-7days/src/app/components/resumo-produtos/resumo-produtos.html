@@ -1,0 +1,13 @@
+<h2>Resumo dos Produtos</h2>
+
+<p>Total de produtos: {{ quantidadeProdutos() }}</p>
+
+<ul>
+  @for (produto of produtos(); track produto.id) {
+    <li>
+      {{ produto.nome }} - R$ {{ produto.preco }}
+    </li>
+  } @empty {
+    <li>Nenhum produto cadastrado.</li>
+  }
+</ul>
