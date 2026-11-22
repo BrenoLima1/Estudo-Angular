@@ -1,32 +1,38 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TarefasService } from '../../services/tarefas';
 import { Tarefa } from '../../models/tarefa';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-lista-tarefas',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './lista-tarefas.html',
   styleUrl: './lista-tarefas.css',
 })
 export class ListaTarefas implements OnInit {
   private tarefasService = inject(TarefasService);
 
+  private fb = inject(FormBuilder);
+
   tarefas = signal<Tarefa[]>([]);
-
   carregando = signal(true);
+  erro = signal<string | null>(null);
 
-  tituloNovaTarefa = '';
+  formulario = this.fb.nonNullable.group({
+    titulo: ['', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern(/.*\S.*/),
+    ]],
+    descricao: [''],
+    prioridade: ['Normal'],
+  });
 
   ngOnInit() {
     this.tarefasService.listarTarefas().subscribe({
       next: (tarefas) => {
-        console.log('Antes da atualização:', this.carregando);
-
         this.tarefas.set(tarefas);
         this.carregando.set(false);
-
-        console.log('Depois da atualização:', this.carregando);
       },
       error: (erro) => {
         console.error('Erro ao buscar tarefas:', erro);
@@ -36,17 +42,16 @@ export class ListaTarefas implements OnInit {
     });
   }
 
-  erro = signal<string | null>(null);
-
   adicionarTarefa() {
-    if (!this.tituloNovaTarefa.trim()) {
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
       return;
     }
 
-    this.tarefasService.criarTarefa(this.tituloNovaTarefa).subscribe({
-      next: (novaTarefa: Tarefa) => {
-        console.log('Tarefa criada:', novaTarefa);
+    const titulo = this.formulario.controls.titulo.value;
 
+    this.tarefasService.criarTarefa(titulo).subscribe({
+      next: (novaTarefa: Tarefa) => {
         this.tarefas.update((tarefas) => [
           ...tarefas,
           {
@@ -55,7 +60,11 @@ export class ListaTarefas implements OnInit {
           },
         ]);
 
-        this.tituloNovaTarefa = '';
+        this.formulario.reset({
+          titulo: '',
+          descricao: '',
+          prioridade: 'Normal',
+        });
       },
       error: (erro: Error) => {
         console.error('Erro ao criar tarefa:', erro);

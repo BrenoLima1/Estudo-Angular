@@ -1,16 +1,56 @@
 <h2>Adicionar tarefa</h2>
 
-<input
-  type="text"
-  [(ngModel)]="tituloNovaTarefa"
-  placeholder="Digite o título da tarefa"
-/>
+<form [formGroup]="formulario" (ngSubmit)="adicionarTarefa()">
 
-<button (click)="adicionarTarefa()">
-  Adicionar tarefa
-</button>
+  <label>Título:</label>
+  <input
+    type="text"
+    formControlName="titulo"
+    placeholder="Digite o título da tarefa"
+  />
 
-<p>Título digitado: {{ tituloNovaTarefa }}</p>
+  @if (formulario.controls.titulo.invalid && formulario.controls.titulo.touched) {
+    @if (formulario.controls.titulo.hasError('required')) {
+      <p>O título da tarefa é obrigatório.</p>
+    }
+
+    @if (formulario.controls.titulo.hasError('minlength')) {
+      <p>O título precisa ter pelo menos 3 caracteres.</p>
+    }
+
+    @if (formulario.controls.titulo.hasError('pattern')) {
+      <p>O título não pode conter apenas espaços.</p>
+    }
+  }
+
+  <br><br>
+
+  <label>Descrição:</label>
+  <textarea
+    formControlName="descricao"
+    placeholder="Descreva a tarefa"
+  ></textarea>
+
+  <br><br>
+
+  <label>Prioridade:</label>
+  <select formControlName="prioridade">
+    <option value="Baixa">Baixa</option>
+    <option value="Normal">Normal</option>
+    <option value="Alta">Alta</option>
+  </select>
+
+  <br><br>
+
+  <button type="submit" [disabled]="formulario.invalid">
+    Adicionar tarefa
+  </button>
+
+</form>
+
+<p>Título digitado: {{ formulario.controls.titulo.value }}</p>
+<p>Descrição: {{ formulario.controls.descricao.value }}</p>
+<p>Prioridade: {{ formulario.controls.prioridade.value }}</p>
 
 @if (carregando()) {
   <p>Carregando tarefas...</p>
